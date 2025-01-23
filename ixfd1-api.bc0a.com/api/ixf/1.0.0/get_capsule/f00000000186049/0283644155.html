@@ -1,0 +1,335 @@
+{ "account_id": "f00000000186049", "date_published": 1725561168687, "key": "0283644155", "is_universal_capsule_enabled": "true", "capsule_version": "1.0.0.0", "engine_version": "1.0.0.0", "version": 2, "date_created": 1725561168687, "nodes": [ { "feature_group":
+"_body_open", "script_content": "\n function positionLinkBlock(targetContainer) {\n if (targetContainer != null) {\n var strLinkBlock = '
+<div class=\ "be-related-link-container\">
+    <div class=\ "be-label\">Also of Interest</div>
+    <ul class=\ "be-list\">
+        <li class=\ "be-list-item\"><a class=\ "be-related-link\" href=\ "https://www.stewart.com/en/customer-type/real-estate-closing-title-services/tools-and-resources/mortgage-calculator\">Mortgage Calculator</a></li>
+        <li class=\ "be-list-item\"><a class=\ "be-related-link\" href=\ "https://www.stewart.com/en/customer-type/real-estate-closing-title-services/tools-and-resources/amortization-calculator\">Amortization Calculator</a></li>
+        <li class=\ "be-list-item\"><a class=\ "be-related-link\" href=\ "https://www.stewart.com/en/markets/new-york-metro/tools-and-resources\">Serving the Greater Area of New York Metro</a></li>
+    </ul>
+</div>';\n targetContainer.insertAdjacentHTML('afterbegin', strLinkBlock);\n }\n }\n \n jsElementReady('.be-ix-link-block', positionLinkBlock);\n \n \n", "engine_version": "1.0.0.0", "content": "
+<script type='text/javascript'>
+    \
+    n
+    function positionLinkBlock(targetContainer) {\
+        n
+        if (targetContainer != null) {\
+            n
+            var strLinkBlock = '<div class=\"be-related-link-container\"><div class=\"be-label\">Also of Interest</div><ul class=\"be-list\"><li class=\"be-list-item\"><a class=\"be-related-link\" href=\"https://www.stewart.com/en/customer-type/real-estate-closing-title-services/tools-and-resources/mortgage-calculator\">Mortgage Calculator</a></li><li class=\"be-list-item\"><a class=\"be-related-link\" href=\"https://www.stewart.com/en/customer-type/real-estate-closing-title-services/tools-and-resources/amortization-calculator\">Amortization Calculator</a></li><li class=\"be-list-item\"><a class=\"be-related-link\" href=\"https://www.stewart.com/en/markets/new-york-metro/tools-and-resources\">Serving the Greater Area of New York Metro</a></li></ul> </div>';\
+            n targetContainer.insertAdjacentHTML('afterbegin', strLinkBlock);\
+            n
+        }\
+        n
+    }\
+    n\ n jsElementReady('.be-ix-link-block', positionLinkBlock);\
+    n\ n
+</script>\n", "date_published": 1725561168687, "non_script_content": "", "date_created": 1725561167727, "type": "bodystr", "publishing_engine": "link-block" }, { "feature_group": "_head_open", "script_content": "", "engine_version": "1.0.0.0", "content":
+"
+<script type='text/javascript'>
+    \
+    nif(window.BEJSSDKObserver === undefined) {\
+            n(function(BEJSSDKObserver, $, undefined) {\
+                        n
+                        var observer = void 0;\
+                        n
+                        var listeners = [];\
+                        n
+                        var readySet = [];\
+                        n
+                        var doc = window.document;\
+                        n
+                        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;\
+                        n\ n
+                        function checkSelector(selector, fn, indexList) {\
+                            n
+                            var elements = doc.querySelectorAll(selector);\
+                            n /**\n    issues on IE @see https://www.codesd.com/item/javascript-es6-not-a-function-error.html\n    elements = Array.from(elements);\n\n    */ \ n
+                            for (var i = 0, len = elements.length; i < len; i++) {\
+                                n /* -1 means all instances */ \ n
+                                if (indexList != -1 && !(i in indexList)) {\
+                                    n
+                                    continue;\
+                                    n
+                                }\
+                                n
+                                var element = elements[i];\
+                                n
+                                for (var j = 0; j < readySet.length; j++) {\
+                                    n
+                                    if (readySet[j] == element.className || readySet[j] == element.id) {\
+                                        n
+                                        return;\
+                                        n
+                                    }\
+                                    n
+                                }\
+                                n
+                                if (element.className) {\
+                                    n readySet.push(element.className);\
+                                    n
+                                }\
+                                n
+                                if (element.id) {\
+                                    n readySet.push(element.id);\
+                                    n
+                                }\
+                                n\ n
+                                if (!element.ready || MutationObserver == null) {\
+                                    n element.ready = true;\
+                                    n fn.call(element, element);\
+                                    n
+                                }\
+                                n
+                            }\
+                            n
+                        }\
+                        n\ n
+                        function checkListeners() {\
+                            n listeners.forEach(function(listener) {\
+                                n
+                                return checkSelector(listener.selector, listener.fn, listener.indexList);\
+                                n
+                            });\
+                            n
+                        }\
+                        n\ n
+                        function removeListener(selector, fn) {\
+                            n
+                            var i = listeners.length;\
+                            n
+                            while (i--) {\
+                                n
+                                var listener = listeners[i];\
+                                n
+                                if (listener.selector === selector && listener.fn === fn) {\
+                                    n listeners.splice(i, 1);\
+                                    n
+                                    if (!listeners.length && observer) {\
+                                        n observer.disconnect();\
+                                        n observer = null;\
+                                        n
+                                    }\
+                                    n
+                                }\
+                                n
+                            }\
+                            n
+                        }\
+                        n\ n /**\n * Fire event on first js selector\n * @param selector string to watch on\n * @param fn       callback function\n * @param index_list can be undefined which means only first one\n *                   or -1 which means all\n *                   or a list of allowable indexes\n */ \ n BEJSSDKObserver.jsElementReady = function(selector, fn, index_list) {\
+                                n
+                                if (index_list === undefined) {\
+                                    n index_list = [];\
+                                    n index_list.push(0);\
+                                    n
+                                }\
+                                n\ n
+                                if (MutationObserver != null) {\
+                                    n
+                                    if (!observer) {\
+                                        n observer = new MutationObserver(checkListeners);\
+                                        n observer.observe(doc.documentElement, {\
+                                            n childList: true,
+                                            \n subtree: true\ n
+                                        });\
+                                        n
+                                    }\
+                                    n listeners.push({
+                                        selector: selector,
+                                        fn: fn,
+                                        indexList: index_list
+                                    });\
+                                    n
+                                } else {\
+                                    n /* <= IE8 */ \ n
+                                    if (!document.addEventListener) {\
+                                        n /* log(\"<=IE8 attachEvent assignment\"); */ \ n document.addEventListener = document.attachEvent;\
+                                        n
+                                    }\
+                                    n document.addEventListener(\"DOMContentLoaded\", function(event) {\n      var elements = doc.querySelectorAll(selector);\n      for (var i = 0, len = elements.length; i < len; i++) {\n        /* -1 means all instances */\n        if (index_list != -1 && !(i in index_list)) {\n          continue;\n        }\n        var element = elements[i];\n        element.ready = true;\n        fn.call(element, element);\n      }\n    });\n  }\n\n  checkSelector(selector, fn, index_list);\n  return function () {\n    return removeListener(selector, fn);\n  };\n};\n}(window.BEJSSDKObserver = window.BEJSSDKObserver || {}));\n}\nvar jsElementReady = window.BEJSSDKObserver.jsElementReady;\n\nif (window.BELinkBlockGenerator === undefined) {\n  (function(BELinkBlockGenerator, $, undefined) {\n    BELinkBlockGenerator.MAXIMUM_HEADLINE_LENGTH = 100;\n    BELinkBlockGenerator.MAXIMUM_DESC_LENGTH = 200;\n\n    BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_URL_TYPE = 0;\n    BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_HEADLINE_TYPE = 1;\n    BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_DESCRIPTION_TYPE = 2;\n    BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_IMAGE_TYPE = 3;\n\n    BELinkBlockGenerator.REPLACEMENT_STRATEGY_OVERWRITE = 0;\n    BELinkBlockGenerator.REPLACEMENT_STRATEGY_POST_APPEND_ELEMENT = 1;\n    BELinkBlockGenerator.REPLACEMENT_STRATEGY_PRE_APPEND_ELEMENT = 2;\n    BELinkBlockGenerator.REPLACEMENT_STRATEGY_PRE_APPEND_PARENT = 3;\n\n    BELinkBlockGenerator.setMaximumHeadlineLength = function(length) {\n      BELinkBlockGenerator.MAXIMUM_HEADLINE_LENGTH = length;\n    };\n\n    BELinkBlockGenerator.setMaximumDescriptionLength = function(length) {\n      BELinkBlockGenerator.MAXIMUM_DESC_LENGTH = length;\n    };\n\n    BELinkBlockGenerator.generateIndividualLinks = function(parentElement, linkStructure, link) {\n      var link_level_element_tag = linkStructure[0];\n      var link_level_element = document.createElement(link_level_element_tag);\n      var link_attribute_dictionary = linkStructure[1];\n      var allowable_elements = linkStructure[2];\n      var children_link_structures = linkStructure[3];\n      for (var link_attribute_key in link_attribute_dictionary) {\n        link_level_element.setAttribute(link_attribute_key, link_attribute_dictionary[link_attribute_key]);\n      }\n\n      var added_something = false;\n      if (allowable_elements.indexOf(BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_URL_TYPE)>=0) {\n        link_level_element.setAttribute('href', link.url);\n        added_something = true;\n      }\n      if (allowable_elements.indexOf(BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_HEADLINE_TYPE)>=0 && link.h1) {\n        var headline_text = link.h1;\n        if (headline_text.length > BELinkBlockGenerator.MAXIMUM_HEADLINE_LENGTH) {\n          headline_text = headline_text.substring(0, BELinkBlockGenerator.MAXIMUM_HEADLINE_LENGTH) + '...';\n        }\n        var text_node = document.createTextNode(headline_text);\n        link_level_element.appendChild(text_node);\n        added_something = true;\n      }\n      if (allowable_elements.indexOf(BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_DESCRIPTION_TYPE)>=0 && link.desc) {\n        var desc_text = link.desc;\n        if (desc_text.length > BELinkBlockGenerator.MAXIMUM_DESC_LENGTH) {\n          desc_text = desc_text.substring(0, BELinkBlockGenerator.MAXIMUM_DESC_LENGTH) + '...';\n        }\n        var text_node = document.createTextNode(desc_text);\n        link_level_element.appendChild(text_node);\n        added_something = true;\n      }\n      if (allowable_elements.indexOf(BELinkBlockGenerator.IND_LINK_BLOCK_TYPE_IMAGE_TYPE)>=0 && link.image) {\n        link_level_element.setAttribute('src', link.image);\n        added_something = true;\n      }\n/**\n    don't emit for empty links, desc, headline, image\n    except for parent structures where allowable_length=0\n    */\n    if (!added_something && allowable_elements.length != 0) {\n\n      return;\n    }\n    /* go depth first */\n    for (var childrenIndex=0; childrenIndex<children_link_structures.length; childrenIndex++) {\n      var childLinkStructure = children_link_structures[childrenIndex];\n      BELinkBlockGenerator.generateIndividualLinks(link_level_element, childLinkStructure, link);\n    }\n    parentElement.appendChild(link_level_element);\n  };\n\n  BELinkBlockGenerator.insertLinkBlocks = function(targetElement, replacementStrategy, overallStructure, linkStructure, links,\n                                                   titleStructure) {\n    if (targetElement == null) {\n      return;\n    }\n\n    if (replacementStrategy == BELinkBlockGenerator.REPLACEMENT_STRATEGY_OVERWRITE) {\n      while (targetElement.firstChild) {\n        targetElement.removeChild(targetElement.firstChild);\n      }\n    }\n\n    var previousElement = targetElement;\n    for (var i=0;i<overallStructure.length;i++) {\n      var level_definition = overallStructure[i];\n      var level_element_tag = level_definition[0];\n      var level_element = document.createElement(level_element_tag);\n      var attribute_dictionary = level_definition[1];\n      for (var attribute_key in attribute_dictionary) {\n        level_element.setAttribute(attribute_key, attribute_dictionary[attribute_key]);\n      }\n\n      /* need to place title structure */\n      if (titleStructure && titleStructure[0] == i) {\n        var title_element_tag = titleStructure[1];\n        var title_element = document.createElement(title_element_tag);\n        var title_attribute_dictionary = titleStructure[2];\n        var title_text_content = titleStructure[3];\n        for (var title_attribute_key in title_attribute_dictionary) {\n          title_element.setAttribute(title_attribute_key, title_attribute_dictionary[title_attribute_key]);\n        }\n\n        var title_text_node = document.createTextNode(title_text_content);\n        title_element.appendChild(title_text_node);\n\n\n        level_element.appendChild(title_element);\n      }\n\n      /* last level place links */\n      if (i == overallStructure.length-1) {\n        for (var link_i=0; link_i < links.length; link_i++) {\n          var link = links[link_i];\n          for (var linkStructureIndex=0;linkStructureIndex < linkStructure.length; linkStructureIndex++) {\n            BELinkBlockGenerator.generateIndividualLinks(level_element, linkStructure[linkStructureIndex], link)\n          }\n        }\n      }\n\n      /* first level child we need to check placement */\n      if (previousElement == targetElement) {\n        if (replacementStrategy == BELinkBlockGenerator.REPLACEMENT_STRATEGY_PRE_APPEND_ELEMENT) {\n          /* 2 means insert right before */\n          previousElement.insertBefore(level_element, targetElement.firstChild);\n        } else if (replacementStrategy == BELinkBlockGenerator.REPLACEMENT_STRATEGY_PRE_APPEND_PARENT) {\n          /* 3 means insert right before at parent level */\n          var parentElement = previousElement.parentElement;\n          parentElement.insertBefore(level_element, previousElement);\n        } else {\n          previousElement.appendChild(level_element);\n        }\n      } else {\n        previousElement.appendChild(level_element);\n      }\n      previousElement = level_element;\n    }\n  };\n}(window.BELinkBlockGenerator = window.BELinkBlockGenerator || {}))\n};\n
+</script>\n\n
+<style>
+    \n.be-ix-link-block .be-related-link-container {
+        text-align: center;
+        padding: 1.875rem;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-label {
+        font-size: 1.125rem;
+        line-height: 1.625rem;
+        letter-spacing: .01125rem;
+        font-weight: 400;
+        font-weight: bolder;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list {
+        display: inline-block;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item {
+        display: inline-block;
+        margin-right: 20px;
+        margin-bottom: 6px;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item .be-related-link {
+        font-size: 1.125rem;
+        line-height: 1.625rem;
+        letter-spacing: .01125rem;
+        text-decoration: underline;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item .be-related-link:hover {
+        color: #0075aa;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item:last-child {
+        margin-right: 0;
+    }
+
+    \n\n@media (max-width: 767px) {
+        \n .be-ix-link-block .be-related-link-container .be-label {
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: .75rem;
+            line-height: 1.125rem;
+            \n letter-spacing: .0075rem;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-list {
+            display: block;
+            width: 100%;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-list .be-list-item {
+            display: block;
+            margin-right: 0;
+        }
+        \n
+    }
+
+    \n@media (min-width: 768px) {
+        \n .be-ix-link-block .be-related-link-container {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-label {
+            display: inline-block;
+            margin-right: 20px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+        \n
+    }
+
+    \n@media (max-width: 991px) {
+        \n .be-ix-link-block .be-related-link-container .be-label {
+            font-size: .75rem;
+            line-height: 1.125rem;
+            letter-spacing: .0075rem;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-list .be-list-item .be-related-link {
+            font-size: .75rem;
+            font-weight: 400;
+            line-height: 1.125rem;
+            letter-spacing: .0075rem;
+        }
+        \n
+    }
+
+    \n
+</style>\n", "date_published": 1725561168687, "non_script_content": "
+<style>
+    \n.be-ix-link-block .be-related-link-container {
+        text-align: center;
+        padding: 1.875rem;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-label {
+        font-size: 1.125rem;
+        line-height: 1.625rem;
+        letter-spacing: .01125rem;
+        font-weight: 400;
+        font-weight: bolder;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list {
+        display: inline-block;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item {
+        display: inline-block;
+        margin-right: 20px;
+        margin-bottom: 6px;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item .be-related-link {
+        font-size: 1.125rem;
+        line-height: 1.625rem;
+        letter-spacing: .01125rem;
+        text-decoration: underline;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item .be-related-link:hover {
+        color: #0075aa;
+    }
+
+    \n.be-ix-link-block .be-related-link-container .be-list .be-list-item:last-child {
+        margin-right: 0;
+    }
+
+    \n\n@media (max-width: 767px) {
+        \n .be-ix-link-block .be-related-link-container .be-label {
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: .75rem;
+            line-height: 1.125rem;
+            \n letter-spacing: .0075rem;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-list {
+            display: block;
+            width: 100%;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-list .be-list-item {
+            display: block;
+            margin-right: 0;
+        }
+        \n
+    }
+
+    \n@media (min-width: 768px) {
+        \n .be-ix-link-block .be-related-link-container {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-label {
+            display: inline-block;
+            margin-right: 20px;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+        \n
+    }
+
+    \n@media (max-width: 991px) {
+        \n .be-ix-link-block .be-related-link-container .be-label {
+            font-size: .75rem;
+            line-height: 1.125rem;
+            letter-spacing: .0075rem;
+        }
+        \n .be-ix-link-block .be-related-link-container .be-list .be-list-item .be-related-link {
+            font-size: .75rem;
+            font-weight: 400;
+            line-height: 1.125rem;
+            letter-spacing: .0075rem;
+        }
+        \n
+    }
+
+    \n
+</style>\n", "date_created": 1725561168934, "type": "headstr", "publishing_engine": "pixel" } ], "config": {}, "publishing_engine": "ixf-compiler" }

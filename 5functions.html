@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>functions</title>
+    <button onclick="" class="js-button">Click</button>
+</head>
+<body>
+    <script>
+        /*
+        const buttonElement= document.querySelector('.js-button');
+        //lets us run some code when we interact with the element
+        //here click is the event the word after on 
+        //because passing a function into a function use arrow function 
+        buttonElement.addEventListener('click',()=>{
+            console.log('click'); // event ,function 
+        }); // does the same thing that onclick does however add some advantages  .. 
+        const eventListner =()=>{
+            console.log('click2'); 
+        };
+        //1) multiple event listners for an event, 
+        buttonElement.addEventListener('click',eventListner);
+        // 2) can remove event listners using .removeEventListner(parameter same)
+        buttonElement.removeEventListener('click',eventListner);
+        */
+        /*
+        Check out all functional information
+
+        function greet(){
+            console.log('hello');
+        }
+        greet();
+
+        const num=2;
+        //Functions are values thus we can save function in a variable
+        const function1 = function greet(){
+            console.log('hello2');
+        };
+        // OR
+        //Anonymous function :- function without a name 
+        const function2 = function(){
+            console.log('hello');
+        }; 
+
+        console.log(function1);
+        console.log( typeof function1);
+        function1();
+
+        const object ={
+            num:2,
+            // fun: function greet(){
+            //     console.log('hello3');
+            // }
+            fun: function (){ //Anonymous function
+                console.log('hello3');
+            }
+        };
+        object.fun();
+
+        function run(param){
+            param();
+        }
+        // also can pass a function to another function as functions are value
+        run(function(){
+            console.log('hello4'); //' call back ' function
+        });
+
+        //Synchronous Code - will wait for one line to finish before going to the next line 
+        setTimeout(function(){
+            console.log('timeout');
+            console.log('timeout2');
+        },3000); //call the function after 3 second
+        //Asynchronous Code - Computer won't wait for  a line to finsh before to the next line
+        console.log('next line');
+
+        setInterval(function(){
+            console.log('Interval');
+        },3000); //call the function after 3 second
+        //Asynchronous Code - Computer won't wait for  a line to finsh before to the next line
+        console.log('next line2 ');
+
+        // [
+        //     'make dinner',
+        //     'wash dishes'
+        // ].foreach(function(value,index){
+        //     console.log(index);
+        //     console.log(value);
+        // });
+
+        [
+            'make dinner',
+            'wash dishes'
+        ].foreach((value,index) => {  //using arrow function ,makes the code easier to read
+            console.log(index);
+            console.log(value);
+        });
+
+        const arrowFunction = () =>{
+            console.log('hello');
+        };
+        arrowFunction();
+
+        // optional to use brackets when one parameter is passed
+        // const oneParam = (param) =>{
+        const oneParam = param =>{
+            console.log(param+1);
+        };
+        oneParam(2);
+
+        // when array function only has one line , can put it into the same line and then curly brackets are optional and also remove the return statement
+        // const onLine = () => {
+        //     return 2+3;
+        // }
+        const onLine = () => 2+3;
+        console.log(onLine());
+
+        const object2={
+            method:()=>{
+
+            },
+            //object had a shortcut for functions 
+            method(){
+                //shorthand Method Syntax ,easier to read
+            }
+        };
+        */
+
+       // FILTER
+       console.log([1,-3,5].filter((value,index) => {
+            return true;
+       }));
+       console.log([1,-3,5].filter((value,index) => {
+            // if(value >= 0){
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+            return value >=0 ;
+       }));
+
+       //   MAP
+       console.log([1,1,3].map((value,index) => {
+        // return 10; //[10,10,10]
+            return value + 10; //[11,11,13]
+       }));
+
+       //if array function has only one parameter then you can remove the  brackets also can remove the curly braces and return statement in every one liner code
+       console.log([1,1,3].map(value => value + 10 ));
+    </script>
+</body>
+</html>

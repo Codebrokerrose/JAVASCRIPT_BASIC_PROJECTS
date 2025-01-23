@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator">
+        <h2>Interest Calculator</h2>
+        <label for="amount">Principal Amount:</label>
+        <br>
+        <input type="number" placeholder="Enter Principal Amount" id="amount">
+        <br>
+        <label for="rate">Rate (%):</label>
+        <br>
+        <input type="number" placeholder="Enter Rate" id="rate">
+        <br>
+        <label for="time">Time:</label>
+        <br>
+        <input type="number" placeholder="Enter Time" id="time">
+        <br>
+        <button onclick="answer()">
+            Calculate
+        </button>
+        <p>Principal Amount: <span id="output_1"></span></p>
+        <p>Total Interest Amount: <span id="output_2"></span></p>
+        <p>Total Amount: <span id="output_3"></span></p>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

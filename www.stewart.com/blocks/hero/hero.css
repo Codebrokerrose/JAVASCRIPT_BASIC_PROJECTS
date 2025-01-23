@@ -1,0 +1,173 @@
+/* block specific CSS goes here */
+
+main .hero-container>div {
+    max-width: unset;
+}
+
+main .hero-container {
+    padding-inline: 0;
+}
+
+main .hero {
+    position: relative;
+    padding: 3.125rem 1.5rem;
+    min-height: 300px;
+    color: var(--clr-white);
+}
+
+main .hero a,
+main .hero .icon-link {
+    color: var(--clr-white);
+}
+
+main .hero-container.light .hero {
+    color: var(--text-color);
+}
+
+main .hero-container.opacity-10 .hero {
+    background-color: rgb(0 0 0 / 10%);
+}
+
+main .hero-container.opacity-15 .hero {
+    background-color: rgb(0 0 0 / 15%);
+}
+
+main .hero-container.opacity-20 .hero {
+    background-color: rgb(0 0 0 / 20%);
+}
+
+main .hero-container.opacity-30 .hero {
+    background-color: rgb(0 0 0 / 30%);
+}
+
+main .hero-container.opacity-40 .hero {
+    background-color: rgb(0 0 0 / 40%);
+}
+
+main .hero-container.opacity-50 .hero {
+    background-color: rgb(0 0 0 / 50%);
+}
+
+main .hero .hero-inner-wrapper {
+    max-width: 100rem;
+}
+
+main .wide .hero .hero-inner-wrapper {
+    max-width: 110rem;
+}
+
+main .hero .hero-inner {
+    max-width: 100rem;
+}
+
+main .narrow .hero .hero-inner {
+    max-width: 80rem;
+}
+
+main .wide .hero .hero-inner {
+    max-width: 110rem;
+}
+
+main .hero h1::after {
+    content: "";
+    display: block;
+    background-color: var(--clr-brand-red);
+    width: 4.5rem;
+    height: 0.25rem;
+    margin: 0.5rem 0 0;
+}
+
+main .hero picture.hero-bg {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+main .hero picture.hero-bg img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+main .hero h2 {
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+}
+
+main .hero .button-container {
+    text-align: end;
+    margin-top: 28px;
+    margin-bottom: 2.5rem;
+}
+
+main .hero .block .button-container,
+main .hero-container.left-buttons .hero .button-container {
+    text-align: unset;
+}
+
+main .hero .button-container a {
+    margin-block-end: 0;
+}
+
+main .hero .hero-inner-grid .hero-inner-secondary-image {
+    padding-bottom: 2rem;
+    max-width: min(70%, 20rem);
+}
+
+@media (min-width: 600px) {
+    .section.narrow.hero-container {
+        max-width: 100%;
+        margin-inline: 0;
+    }
+}
+
+@media (min-width: 900px) {
+    main .hero {
+        padding: 6.25rem 8.5rem;
+    }
+    main .hero h1::after {
+        height: 0.5rem;
+        margin: 1.5rem 0 0;
+        width: 10rem;
+    }
+    main .hero .align-end {
+        margin-top: 5rem;
+    }
+}
+
+/* grid for when hero has an additional image */
+
+@media (min-width: 900px) {
+    main .hero .hero-inner-grid {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 1rem;
+    }
+    main .hero .hero-inner-grid>* {
+        grid-column: 1;
+    }
+    main .hero .hero-inner-grid h1 {
+        grid-column: 1;
+    }
+    main .hero .hero-inner-grid .hero-inner-secondary-image {
+        grid-row: 1 / -1;
+        grid-column: 2;
+        justify-self: end;
+        max-width: unset;
+    }
+    main .left-logo .hero .hero-inner-grid .hero-inner-secondary-image {
+        grid-column: 1;
+        justify-self: start;
+    }
+}
+
+@media (min-width: 1200px) {
+    main .hero .hero-inner-wrapper {
+        margin: auto;
+    }
+}

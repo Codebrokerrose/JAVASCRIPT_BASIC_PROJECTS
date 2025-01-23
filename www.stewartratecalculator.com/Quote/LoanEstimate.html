@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Stewart Rate Calculator</title>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+    <link href="/Content/style/fonts.css" rel="stylesheet" />
+    <link href="/Content/style/framework.css?version=2" rel="stylesheet" />
+    <link href="/Content/style/nrc-style.less?version=21" rel="stylesheet" />
+    <link href="/Content/style/jquery-ui.css?version=2" rel="stylesheet" />
+    <link href="/Content/icons/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+    <link href="/Content/icons/favicon.ico" rel="icon" type="image/vnd.microsoft.icon" />
+    <link href="/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="/bundles/scriptsmisc?v=CifdFvlemW6_08MyE8LLaEe_x9Iqb3C_TLR9qUL8NSE1"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+
+    <script>
+        if (typeof(rateCalc) !== 'object') {
+            rateCalc = {};
+        }
+
+        rateCalc.srcWelcomeMessageVersion = '46';
+        rateCalc.isShowNewToNRCMessage = false;
+        rateCalc.notificationMessage = "Test Message for release 9/18/2024";
+        rateCalc.isBranded = false;
+        var loanEstimateOptionList = {
+            "default": {
+                "1": [1, 1, 1, 0]
+            },
+            "current": [0, 0, 0, 0]
+        };
+        var isSaveDocumentPDF = false;
+        rateCalc.networkID = '';
+        rateCalc.quoteType = 3;
+        var closingSheetLookup;
+        rateCalc.urlParams = '&amp;refID=http://www.stewart.com/content/stewart/stewartcom/en/quick-links/rate-calculator.html&amp;branded=false';
+        rateCalc.quoteRequestRoot = {
+            "QuoteRequest": {
+                "@version": 3.0,
+                "TransactionInformation": {
+                    "TransactionDateTime": "0001-01-01T00:00:00",
+                    "ClientReferenceNumber": "http://www.stewart.com/content/stewart/stewartcom/en/quick-links/rate-calculator.html",
+                    "StewartReferenceNumber": "88318a79-63b3-4cf0-98f3-d6908031e735",
+                    "ProviderID": "",
+                    "CustomerName": "",
+                    "ClosingDate": "0001-01-01T00:00:00",
+                    "TransactionTypeCode": "",
+                    "TransactionTypeDescription": "",
+                    "FeeItemTypeList": {
+                        "FeeItemType": []
+                    }
+                },
+                "PropertyAddress": {
+                    "CityName": "",
+                    "CountyCode": "",
+                    "StateCode": "",
+                    "ZipCode": ""
+                },
+                "PolicyInfo": {
+                    "IsSimultaneous": "False",
+                    "PolicyList": {
+                        "Policy": []
+                    }
+                },
+                "Recording": {
+                    "QuestionList": {
+                        "Question": []
+                    },
+                    "MortgageNumPages": "",
+                    "DeedNumPages": "",
+                    "ReleaseNumPages": "",
+                    "CountyName": "",
+                    "PageRec": "",
+                    "OriginalDebt": "",
+                    "UnpaidBalance": "",
+                    "IsTorren": "",
+                    "Subjurisdiction": "",
+                    "LandSystem": "",
+                    "FairMarketValue": ""
+                },
+                "Internal": {
+                    "UnderwriterName": "",
+                    "FeeItemName": "",
+                    "Commercial": "",
+                    "Reverse": false,
+                    "UserRole": 0,
+                    "UserEmail": "",
+                    "HostNetworkGUID": ""
+                }
+            }
+        };
+        rateCalc.propertyCountyName = '';
+        rateCalc.transactionTypeConfig = {
+            "TransactionTypeConfig": [{
+                    "Code": "SALE",
+                    "IsBuyerNetSheet": true,
+                    "IsSellerNetSheet": true,
+                    "IsTEFE": true
+                },
+                {
+                    "Code": "REFI",
+                    "IsBuyerNetSheet": false,
+                    "IsSellerNetSheet": false,
+                    "IsTEFE": true
+                },
+                {
+                    "Code": "CASH",
+                    "IsBuyerNetSheet": true,
+                    "IsSellerNetSheet": true,
+                    "IsTEFE": true
+                },
+                {
+                    "Code": "LEASEHOLD",
+                    "IsBuyerNetSheet": false,
+                    "IsSellerNetSheet": false,
+                    "IsTEFE": true
+                },
+                {
+                    "Code": "CONSTRUCTION",
+                    "IsBuyerNetSheet": false,
+                    "IsSellerNetSheet": false,
+                    "IsTEFE": true
+                },
+                {
+                    "Code": "CONSTRUCTIONREFI",
+                    "IsBuyerNetSheet": false,
+                    "IsSellerNetSheet": false,
+                    "IsTEFE": true
+                }
+            ]
+        };
+        rateCalc.isPropertySearchRequired = false;
+        rateCalc.allowNetSheet = true;
+        rateCalc.allowTEFE = true;
+        rateCalc.negotiatedProviderID = '';
+        rateCalc.negotiatedProvider;
+        rateCalc.clientAccountConfig = {
+            "ClientAccount": {
+                "IsInternal": true
+            }
+        };
+    </script>
+
+
+
+
+</head>
+
+<body>
+    <noscript><p>[This resource requires a Javascript enabled browser.]</p></noscript>
+
+    <script>
+        rateCalc.logoSource = '';
+    </script>
+
+    <header class="container site-header" role="banner">
+        <div class="row">
+            <div class="three columns">
+                <div class="header-brand">
+                </div>
+            </div>
+            <div class="nine columns">
+                <h1 class="h-beta  site-title">Stewart Rate Calculator</h1>
+            </div>
+        </div>
+    </header>
+    <div class="container calc-container" data-name="dvWiz">
+        <div class="row">
+            <div class="twelve columns">
+
+
+
+                <form action="/" data-method="GET" id="frmCalculateRates" method="post">
+                    <div class="row" data-name="calc-container">
+                        <div class="calculator-container" data-name="calculatorContainer" data-type="container">
+                            <div class="row">
+                                <div class="columns three"></div>
+                                <div id="buyerSellerLoanEstimateGroup" class="columns six switch-button" style="margin-left: 0">
+                                    <input type="radio" id="rbBuyer" name="pageBuyerSeller" value="buyer" />
+                                    <label for="rbBuyer" data-name="netsheetSwitchButton">Buyer Close Sheet</label>
+                                    <input type="radio" id="rbSeller" name="pageBuyerSeller" value="seller" />
+                                    <label for="rbSeller" data-name="netsheetSwitchButton">Seller Net Sheet</label>
+                                    <input type="radio" id="rbLoanEstimate" name="pageBuyerSeller" value="loanestimate" />
+                                    <label for="rbLoanEstimate" data-name="tefeSwitchButton">Title & Escrow Fee Estimate</label>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row calculator-section">
+                                <div class="column one">
+                                </div>
+                                <div class="columns three calculator-section-header prop-location-font">
+                                    <fieldset class="fieldset-label">
+                                        <legend>Property Location</legend>
+                                        <span> (City, State, County)</span>
+                                    </fieldset>
+                                </div>
+                                <div class="columns five">
+                                    <input class="input-block" id="txtPropertyLocation" name="txtPropertyLocation" type="text" title="Enter City/County and State or ZIP code" onblur="rateCalc.HandlePropertyLocationLostFocus()" placeholder="Enter City/County and State or ZIP code" onfocus="this.removeAttribute('placeholder');"
+                                    />
+                                </div>
+                                <div id="divPropertyUnincorporated" class="columns three checkbox-calculator">
+                                    <label for="cbUnincorporatedProperty">
+                <input type="checkbox" id="cbUnincorporatedProperty" onchange="rateCalc.HandleUnincorporatedPropertyChanged()" />
+                <span>Outside city limits</span>
+            </label>
+                                </div>
+                                <div class="columns three">
+                                    <span data-name="proplocation-noresults">No results found</span>
+                                </div>
+                            </div>
+                            <div class="row calculator-section">
+                                <div class="column one">
+                                </div>
+                                <div class="columns five calculator-section-header">
+                                    <fieldset class="fieldset-label">
+                                        <legend>Transaction Type</legend>
+                                    </fieldset>
+                                </div>
+                                <div class="columns three">
+                                    <select class="input-block" id="TransactionType" name="TransactionTypeCode">
+            <option value="" disabled="disabled" selected="selected">Transaction Type</option>
+        </select>
+                                </div>
+                            </div>
+
+                            <div data-name="dialog-warning" title="Stewart Rate Calculator">
+                                <p id="pWarningText">
+
+                                </p>
+                            </div>
+                            <div class="row calculator-section" data-name="tefe-saleprice-wrapper">
+                                <div class="column one">
+                                </div>
+                                <div class="columns three calculator-section-header">
+                                    <fieldset class="fieldset-label">
+                                        <legend id="spnPurchasePrice">Sales Price</legend>
+                                    </fieldset>
+                                </div>
+                                <div class="columns two">
+                                    <div data-name="loadingResults" style="display: none">
+                                        <img src="/Content/img/ajax_loader_gray_32.gif" />
+                                    </div>
+                                </div>
+                                <div class="columns three">
+                                    <input class="input-block" id="txtPurchasePrice" data-name="sales-price" data-value-type="basis-amount" data-policy-feetype="OwnerPremium" data-policy-number="1" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20" data_type="currency"
+                                        data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars." onchange="UpdateBuyerSellerObj(this, '$')" data-bind="value: saleAmount" />
+                                </div>
+                            </div>
+                            <div class="row calculator-section" data-name="tefe-loanamount-wrapper">
+                                <div class="row">
+                                    <div class="column one">
+                                    </div>
+                                    <div class="columns three calculator-section-header">
+                                        <fieldset class="fieldset-label">
+                                            <legend id="spnLoanAmount"><span data-bind="visible: transactionType() == 'LEASEHOLD'|| transactionType() == 'CONSTRUCTION'">Acquisition&nbsp;</span>Loan Amount</legend>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns two">
+                                        <div data-name="loadingResultsLoanAmount" style="display: none">
+                                            <img src="/Content/img/ajax_loader_gray_32.gif" />
+                                        </div>
+                                    </div>
+                                    <div class="columns three">
+                                        <input class="input-block" id="LoanAmount" data-name="loan-amount" data-value-type="basis-amount" data-policy-feetype="LenderPremium" data-policy-number="1" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20" data_type="currency" data_local="US"
+                                            pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars." onchange="UpdateBuyerSellerObj(this, '$')" data-bind="enable: loanType() != 'CASH'" />
+                                    </div>
+                                    <div class="column one add-remove-control" data-bind="visible: transactionType() != 'CONSTRUCTION'">
+                                        <span class="add-remove" data-name="add-loan-span" data-bind="click: addLoan">
+                    <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i>
+                </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div data-bind="foreach: additionalLoanList">
+                                        <div class="row">
+                                            <div class="column one">
+                                            </div>
+                                            <div class="columns five">
+                                                <span data-bind="text: $root.GetNumeralPrefix(($index() + 2))"></span><span data-bind="visible: $root.transactionType() == 'LEASEHOLD'">Acquisition</span> Loan Amount
+                                            </div>
+                                            <div class="columns three">
+                                                <input class="input-block" type="text" value="$0.00" data-value-type="basis-amount" data-policy-feetype="LenderPremium" data-initial-value="$0.00" maxlength="20" data_type="currency" data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars."
+                                                    onblur="rateCalc.SetCurrencyValueToInputElement(this)" data-bind="value: amount, attr: { 'data-policy-number':$index() + 2 }" />
+                                            </div>
+                                            <div class="column one add-remove-control">
+                                                <span class="add-remove" data-bind="click: $parent.removeLoan"><i class="fa fa-minus-square-o fa-2x" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="columns two checkbox-calculator">
+                                                <label data-bind="attr: { for: 'isInsured-' + ($index() + 2) }">
+                            <input type="checkbox" data-bind="checked: isInsured, attr: { id: 'isInsured-' + ($index() + 2), 'data-policy-feetype': 'LenderPremium', 'data-policy-number':$index() + 2 }" onchange="rateCalc.HandleIsInsuredChanged(this)" />
+                            <span>Is Insured</span>
+                        </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row calculator-section" data-name="tefe-leasehold-wrapper">
+                                <div class="column one">
+                                </div>
+                                <div class="columns three calculator-section-header">
+                                    <fieldset class="fieldset-label">
+                                        <legend id="spnLeasehold">Leasehold Amount</legend>
+                                    </fieldset>
+                                </div>
+                                <div class="columns two">
+                                </div>
+                                <div class="columns three">
+                                    <input class="input-block" id="txtLeaseholdAmount" data-name="leasehold-amount" data-value-type="basis-amount" data-policy-feetype="LeaseholdOwnerPremium" data-policy-number="1" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20" data_type="currency"
+                                        data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars." onchange="rateCalc.SetCurrencyValueToInputElement(this)" />
+                                </div>
+                            </div>
+                            <div class="row calculator-section" data-name="tefe-leaseholdloan-wrapper">
+                                <div class="row">
+                                    <div class="column one">
+                                    </div>
+                                    <div class="columns five calculator-section-header">
+                                        <fieldset class="fieldset-label">
+                                            <legend id="spnLoanAmount">Leasehold Loan Amount</legend>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns three">
+                                        <input class="input-block" id="LeaseholdLoanAmount" data-name="leasehold-loan-amount" data-value-type="basis-amount" data-policy-feetype="LeaseholdLenderPremium" data-policy-number="1" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20"
+                                            data_type="currency" data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars." onchange="rateCalc.HandleLeaseholdLoanAmountChanged(this)" />
+                                    </div>
+                                    <div class="column one add-remove-control">
+                                        <span class="add-remove" data-name="add-leaseholdloan-span" data-bind="click: addLeaseholdLoan">
+                    <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i>
+                </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div data-bind="foreach: additionalLeaseholdLoanList">
+                                        <div class="row">
+                                            <div class="column one">
+                                            </div>
+                                            <div class="columns five">
+                                                <span data-bind="text: $root.GetNumeralPrefix(($index() + 2))"></span>Leasehold Loan Amount
+                                            </div>
+                                            <div class="columns three">
+                                                <input class="input-block" data-value-type="basis-amount" data-policy-feetype="LeaseholdLenderPremium" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20" data_type="currency" data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$"
+                                                    title="A valid US Dollar amount under 1 billion dollars." onblur="rateCalc.SetCurrencyValueToInputElement(this)" data-bind="value: amount, attr: { 'data-policy-number':$index() + 2 }" />
+                                            </div>
+                                            <div class="column one add-remove-control">
+                                                <span class="add-remove" data-bind="click: $parent.removeLeaseholdLoan"><i class="fa fa-minus-square-o fa-2x" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="columns two checkbox-calculator">
+                                                <label data-bind="attr: { for: 'isInsured-' + ($index() + 2) }">
+                            <input type="checkbox" data-bind="checked: isInsured, attr: { id: 'isInsured-' + ($index() + 2), 'data-policy-feetype': 'LeaseholdLenderPremium', 'data-policy-number':$index() + 2 }" onchange="rateCalc.HandleIsInsuredChanged(this)" />
+                            <span>Is Insured</span>
+                        </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row calculator-section" data-name="tefe-construction-wrapper">
+                                <div class="column one">
+                                </div>
+                                <div class="columns three calculator-section-header">
+                                    <fieldset class="fieldset-label">
+                                        <legend id="spnConstruction">Construction Loan Amount</legend>
+                                    </fieldset>
+                                </div>
+                                <div class="columns two">
+                                    <div data-name="loadingResultsConstructionLoan" style="display: none">
+                                        <img src="/Content/img/ajax_loader_gray_32.gif" />
+                                    </div>
+                                </div>
+                                <div class="columns three">
+                                    <input class="input-block" id="txtConstructionLoanAmount" data-name="construction-loan-amount" data-value-type="basis-amount" data-policy-feetype="ConstructionLenderPremium" data-policy-number="1" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20"
+                                        data_type="currency" data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars." onchange="rateCalc.SetCurrencyValueToInputElement(this)" />
+                                </div>
+                            </div>
+                            <div class="row calculator-section" data-name="tefe-project-wrapper">
+                                <div class="column one">
+                                </div>
+                                <div class="columns three calculator-section-header">
+                                    <fieldset class="fieldset-label">
+                                        <legend id="spnProject">Project Loan Amount</legend>
+                                    </fieldset>
+                                </div>
+                                <div class="columns two">
+                                </div>
+                                <div class="columns three">
+                                    <input class="input-block" id="txtProjectLoanAmount" data-name="project-loan-amount" data-value-type="basis-amount" data-policy-feetype="ProjectLenderPremium" data-policy-number="1" type="text" value="$0.00" data-initial-value="$0.00" maxlength="20" data_type="currency"
+                                        data_local="US" pattern="^(?!\\$0\\.00)([\\$0-9,\\.]{1,16})$" title="A valid US Dollar amount under 1 billion dollars." onchange="rateCalc.SetCurrencyValueToInputElement(this)" />
+                                </div>
+                            </div>
+                            <div data-name="dialog-missinginfo" title="Missing Information">
+                                <p id="pMissingInfoText">
+                                    Please enter all required fields.
+                                </p>
+                            </div>
+
+                            <div data-name="LEPremiumWrapper">
+                                <div class="row calculator-section expand-section" id="headerLEPremium">
+                                    <div class="column one calculator-mobile m-two">
+                                        <span data-name="toggle-tefe-premium" class="enable-content"><i class="fa fa-toggle-off fa_custom fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="columns four calculator-section-header">
+                                        <fieldset class="fieldset-label">
+                                            <legend>Title Insurance Premium</legend>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns six calculator-section-total calculator-mobile m-five">
+                                        <div data-name="reissueMessageContainer">
+                                            <div data-name="reissueMessage" style="display:none;">
+                                                <strong>Reissue rates may be available for this estimate</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column one">
+                                        <span class="expand-content pull-right clicks-disabled"><i class="fa fa-angle-double-down fa_disabled fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="calculator-content">
+                                    <div class="row" data-name="trSimIssueChk">
+                                        <div class="six columns">
+                                            <label>Is the purchase a Simultaneous Issue?</label>
+                                        </div>
+                                        <div class="six columns">
+                                            <ul class="list-reset list-inline checkbox">
+                                                <li>
+                                                    <input id="IsSimultaneousIssueYes" name="IsSimultaneousIssue" onclick="rateCalc.IsSimultaneousIssueYesClicked()" type="radio" value="Yes" disabled="disabled">
+                                                    <label for="IsSimultaneousIssueYes">Yes</label>
+                                                </li>
+                                                <li>
+                                                    <input checked="checked" id="IsSimultaneousIssueNo" name="IsSimultaneousIssue" onclick="rateCalc.IsSimultaneousIssueNoClicked()" type="radio" value="No" disabled="disabled">
+                                                    <label for="IsSimultaneousIssueNo">No</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <fieldset data-name="tbTipPolicy" class="mobile-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="label4">Policy</th>
+                                                        <th class="label4">Policy/Rate Type</th>
+                                                        <th class="label4" style="text-align: right" data-bind="visible: isDisplaySplits()">Buyer %</th>
+                                                        <th class="label4" style="text-align: right" data-bind="visible: isDisplaySplits()"> </th>
+                                                        <th class="label4" style="text-align: right" data-bind="visible: isDisplaySplits()">Buyer Amount</th>
+                                                        <th class="label4" style="text-align: right" data-bind="visible: isDisplaySplits()">Seller %</th>
+                                                        <th class="label4" style="text-align: right" data-bind="visible: isDisplaySplits()"> </th>
+                                                        <th class="label4" style="text-align: right" data-bind="visible: isDisplaySplits()">Seller Amount</th>
+                                                        <th class="label4" style="text-align: right">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="short-padding">
+                                                    <tr data-name="trOwnerPolicy" data-policy-feetype="OwnerPremium" data-policy-number="1" style="text-align: center;">
+                                                        <td class="label4">
+                                                            <label class="total" id="labelOwnerPolicyPremium">Owner&rsquo;s:</label>
+                                                        </td>
+                                                        <td>
+                                                            <div data-name="trOwnerPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="OwnerPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="OwnerPremium" data-coveragetypes="OP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="OwnerPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="OwnerPremium" data-role="buyer" data-val="true" data-val-number="The field BuyerSplitPercentage must be a number." id="OwnerPolicyBuyerSplit" max="100"
+                                                                min="0" name="OwnerPolicyBuyerSplit" onblur="rateCalc.SplitPolicyPercentage(this)" required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" style="">
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtOwnerPolicyBuyerAmount" name="txtOwnerPolicyBuyerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="OwnerPremium" data-role="buyer" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="OwnerPremium" data-role="seller" id="OwnerPolicySellerSplit" max="100" min="0" name="OwnerPolicySellerSplit" onblur="rateCalc.SplitPolicyPercentage(this)"
+                                                                required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" />
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtOwnerPolicySellerAmount" name="txtOwnerPolicySellerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="OwnerPremium" data-role="seller" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <span class="total pull-right" id="spanOwnerPolicyTotal">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trOwnerTax" class="tefe-hidden-rows" data-policy-feetype="OwnerPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelOwnerPolicyTax">Tax</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanOwnerBuyerTax" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanOwnerSellerTax" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanOwnerTotalTax">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trOwnerTRID" class="tefe-hidden-rows" data-policy-feetype="OwnerPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelOwnerPolicyTRID">TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanOwnerBuyerTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanOwnerSellerTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanOwnerTotalTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trOwnerTaxTRID" class="tefe-hidden-rows" data-policy-feetype="OwnerPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelOwnerPolicyTaxTRID">Tax-TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanOwnerBuyerTaxTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanOwnerSellerTaxTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanOwnerTotalTaxTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLenderPolicy" data-policy-feetype="LenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <div data-name="trLoanPol">
+                                                                <label class="total" id="labelLenderPolicyPremium">Lender&rsquo;s:</label>
+                                                            </div>
+                                                            <div data-name="trRefiLoanPol">
+                                                                <label class="total" id="labelLenderRefiPolicyPremium">Refi Loan:</label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div data-name="trLoanPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="LenderPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="LenderPremium" data-coveragetypes="MP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="LenderPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div data-name="trRefiLoanPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="RefiLenderPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="LenderPremium" data-coveragetypes="MP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="RefiLenderPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="LenderPremium" data-role="buyer" data-val="true" data-val-number="The field BuyerSplitPercentage must be a number." id="LenderPolicyBuyerSplit" max="100"
+                                                                min="0" name="LenderPolicyBuyerSplit" onblur="rateCalc.SplitPolicyPercentage(this)" required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" style="">
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtLenderPolicyBuyerAmount" name="txtLenderPolicyBuyerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="LenderPremium" data-role="buyer" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="LenderPremium" data-role="seller" id="LenderPolicySellerSplit" max="100" min="0" name="LenderPolicySellerSplit" onblur="rateCalc.SplitPolicyPercentage(this)"
+                                                                required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" />
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtLenderPolicySellerAmount" name="txtLenderPolicySellerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="LenderPremium" data-role="seller" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <span class="total pull-right" id="spanLenderPolicyTotal">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLenderTax" class="tefe-hidden-rows" data-policy-feetype="LenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelLenderPolicyTax">Tax</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLenderBuyerTax" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLenderSellerTax" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanLenderTotalTax">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLenderTRID" class="tefe-hidden-rows" data-policy-feetype="LenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelLenderPolicyTRID">TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLenderBuyerTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLenderSellerTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanLenderTotalTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLenderTaxTRID" class="tefe-hidden-rows" data-policy-feetype="LenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelLenderPolicyTaxTRID">Tax-TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLenderBuyerTaxTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLenderSellerTaxTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanLenderTotalTaxTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLeaseholdOwnerPolicy" data-policy-feetype="LeaseholdOwnerPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="total" id="labelLeaseholdOwnerPolicyPremium">Leasehold Owner&rsquo;s:</label>
+                                                        </td>
+                                                        <td>
+                                                            <div data-name="trLeaseholdOwnerPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="LeaseholdOwnerPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="LeaseholdOwnerPremium" data-coveragetypes="LOP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="LeaseholdOwnerPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="LeaseholdOwnerPremium" data-role="buyer" data-val="true" data-val-number="The field BuyerSplitPercentage must be a number." id="LeaseholdOwnerPolicyBuyerSplit"
+                                                                max="100" min="0" name="LeaseholdOwnerPolicyBuyerSplit" onblur="rateCalc.SplitPolicyPercentage(this)" required="required" step="1" title="A percentage value between 0 to 100" type="number" value=""
+                                                                style="">
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtLeaseholdOwnerPolicyBuyerAmount" name="txtLeaseholdOwnerPolicyBuyerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="LeaseholdOwnerPremium" data-role="buyer" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="LeaseholdOwnerPremium" data-role="seller" id="LeaseholdOwnerPolicySellerSplit" max="100" min="0" name="LeaseholdOwnerPolicySellerSplit" onblur="rateCalc.SplitPolicyPercentage(this)"
+                                                                required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" />
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtLeaseholdOwnerPolicySellerAmount" name="txtLeaseholdOwnerPolicySellerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="LeaseholdOwnerPremium" data-role="seller" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <span class="total pull-right" id="spanLeaseholdOwnerPolicyTotal">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLeaseholdOwnerTax" class="tefe-hidden-rows" data-policy-feetype="LeaseholdOwnerPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelLeaseholdOwnerPolicyTax">Tax</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLeaseholdOwnerBuyerTax" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLeaseholdOwnerSellerTax" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanLeaseholdOwnerTotalTax">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLeaseholdLenderPolicy" data-policy-feetype="LeaseholdLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="total" id="labelLeaseholdLenderPolicyPremium">Leasehold Lender&rsquo;s:</label>
+                                                        </td>
+                                                        <td>
+                                                            <div data-name="trLeaseholdLenderPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="LeaseholdLenderPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="LeaseholdLenderPremium" data-coveragetypes="LMP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="LeaseholdLenderPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="LeaseholdLenderPremium" data-role="buyer" data-val="true" data-val-number="The field BuyerSplitPercentage must be a number." id="LeaseholdLenderPolicyBuyerSplit"
+                                                                max="100" min="0" name="LeaseholdLenderPolicyBuyerSplit" onblur="rateCalc.SplitPolicyPercentage(this)" required="required" step="1" title="A percentage value between 0 to 100" type="number" value=""
+                                                                style="">
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtLeaseholdLenderPolicyBuyerAmount" name="txtLeaseholdLenderPolicyBuyerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="LeaseholdLenderPremium" data-role="buyer" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="LeaseholdLenderPremium" data-role="seller" id="LeaseholdLenderPolicySellerSplit" max="100" min="0" name="LeaseholdLenderPolicySellerSplit" onblur="rateCalc.SplitPolicyPercentage(this)"
+                                                                required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" />
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtLeaseholdLenderPolicySellerAmount" name="txtLeaseholdLenderPolicySellerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="LeaseholdLenderPremium" data-role="seller" data-dim="$"
+                                                                onchange="rateCalc.ChangePolicyAmount(this)" />
+                                                        </td>
+                                                        <td>
+                                                            <span class="total pull-right" id="spanLeaseholdLenderPolicyTotal">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trLeaseholdLenderTax" class="tefe-hidden-rows" data-policy-feetype="LeaseholdLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelLeaseholdLenderPolicyTax">Tax</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLeaseholdLenderBuyerTax" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanLeaseholdLenderSellerTax" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanLeaseholdLenderTotalTax">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trConstructionLenderPolicy" data-policy-feetype="ConstructionLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="total" id="labelConstructionLenderPolicyPremium">Construction Lender&rsquo;s:</label>
+                                                        </td>
+                                                        <td>
+                                                            <div data-name="trConstructionLenderPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="ConstructionLenderPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="ConstructionLenderPremium" data-coveragetypes="CMP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="ConstructionLenderPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="ConstructionLenderPremium" data-role="buyer" data-val="true" data-val-number="The field BuyerSplitPercentage must be a number." id="ConstructionLenderPolicyBuyerSplit"
+                                                                max="100" min="0" name="ConstructionLenderPolicyBuyerSplit" onblur="rateCalc.SplitPolicyPercentage(this)" required="required" step="1" title="A percentage value between 0 to 100" type="number"
+                                                                value="" style="">
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtConstructionLenderPolicyBuyerAmount" name="txtConstructionLenderPolicyBuyerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="ConstructionLenderPremium" data-role="buyer" data-dim="$"
+                                                                onchange="rateCalc.ChangePolicyAmount(this)" />
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="ConstructionLenderPremium" data-role="seller" id="ConstructionLenderPolicySellerSplit" max="100" min="0" name="ConstructionLenderPolicySellerSplit" onblur="rateCalc.SplitPolicyPercentage(this)"
+                                                                required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" />
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtConstructionLenderPolicySellerAmount" name="txtConstructionLenderPolicySellerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="ConstructionLenderPremium" data-role="seller" data-dim="$"
+                                                                onchange="rateCalc.ChangePolicyAmount(this)" />
+                                                        </td>
+                                                        <td>
+                                                            <span class="total pull-right" id="spanConstructionLenderPolicyTotal">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trConstructionLenderTax" class="tefe-hidden-rows" data-policy-feetype="ConstructionLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelConstructionLenderPolicyTax">Tax</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanConstructionLenderBuyerTax" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanConstructionLenderSellerTax" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanConstructionLenderTotalTax">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trConstructionLenderTRID" class="tefe-hidden-rows" data-policy-feetype="ConstructionLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelConstructionLenderPolicyTRID">TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanConstructionLenderBuyerTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanConstructionLenderSellerTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanConstructionLenderTotalTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trConstructionLenderTaxTRID" class="tefe-hidden-rows" data-policy-feetype="ConstructionLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelConstructionLenderPolicyTaxTRID">Tax-TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanConstructionLenderBuyerTaxTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanConstructionLenderSellerTaxTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanConstructionLenderTotalTaxTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trProjectLenderPolicy" data-policy-feetype="ProjectLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="total" id="labelProjectLenderPolicyPremium">Project Lender&rsquo;s:</label>
+                                                        </td>
+                                                        <td>
+                                                            <div data-name="trProjectLenderPol" style="display: flex; align-items: center;">
+                                                                <select class="input-block wx100" id="ProjectLenderPolicyCoverageType" name="PolicyCoverageTypeCode" required="required" data-policy-feetype="ProjectLenderPremium" data-coveragetypes="PMP">
+                                        <option value="" disabled="disabled" selected="selected">Select a Policy</option>
+                                    </select>
+                                                                <div data-name="ProjectLenderPolicyCoverageTypeHelp" class="help-icon">
+                                                                    <i class="fa fa-question-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="ProjectLenderPremium" data-role="buyer" data-val="true" data-val-number="The field BuyerSplitPercentage must be a number." id="ProjectLenderPolicyBuyerSplit"
+                                                                max="100" min="0" name="ProjectLenderPolicyBuyerSplit" onblur="rateCalc.SplitPolicyPercentage(this)" required="required" step="1" title="A percentage value between 0 to 100" type="number" value=""
+                                                                style="">
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtProjectLenderPolicyBuyerAmount" name="txtProjectLenderPolicyBuyerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="ProjectLenderPremium" data-role="buyer" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block input-percentage" data-dim="%" data-initial-value="" data-policy-feetype="ProjectLenderPremium" data-role="seller" id="ProjectLenderPolicySellerSplit" max="100" min="0" name="ProjectLenderPolicySellerSplit" onblur="rateCalc.SplitPolicyPercentage(this)"
+                                                                required="required" step="1" title="A percentage value between 0 to 100" type="number" value="" />
+                                                        </td>
+                                                        <td class="text-center" data-bind="visible: isDisplaySplits()">/</td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <input class="input-block" id="txtProjectLenderPolicySellerAmount" name="txtProjectLenderPolicySellerAmount" type="text" value="$0.00" maxlength="35" required="required" data-policy-feetype="ProjectLenderPremium" data-role="seller" data-dim="$" onchange="rateCalc.ChangePolicyAmount(this)"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <span class="total pull-right" id="spanProjectLenderPolicyTotal">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trProjectLenderTax" class="tefe-hidden-rows" data-policy-feetype="ProjectLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelProjectLenderPolicyTax">Tax</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanProjectLenderBuyerTax" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanProjectLenderSellerTax" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanProjectLenderTotalTax">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trProjectLenderTRID" class="tefe-hidden-rows" data-policy-feetype="ProjectLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelProjectLenderPolicyTRID">TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanProjectLenderBuyerTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanProjectLenderSellerTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanProjectLenderTotalTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trProjectLenderTaxTRID" class="tefe-hidden-rows" data-policy-feetype="ProjectLenderPremium" data-policy-number="1">
+                                                        <td class="label4">
+                                                            <label class="label-small" id="labelProjectLenderPolicyTaxTRID">Tax-TRID</label>
+                                                        </td>
+                                                        <td></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanProjectLenderBuyerTaxTRID" data-role="buyer">$0.00</span>
+                                                        </td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()"></td>
+                                                        <td data-bind="visible: isDisplaySplits()">
+                                                            <span class="label-small pull-right" id="spanProjectLenderSellerTaxTRID" data-role="seller">$0.00</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="label-small pull-right" id="spanProjectLenderTotalTaxTRID">$0.00</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                    </div>
+                                    <div class="row mobile-arrow">
+                                        <div class="columns six text-center">
+                                            <span data-name="spanMobileArrow"><i class="fa fa-angle-double-left fa-2x"></i>&nbsp;&nbsp;<i class="fa fa-angle-double-right fa-2x"></i></span>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="row">
+                                        <fieldset class="fieldset-label" data-name="tbReissueQuestion">
+                                            <legend data-name="reissueQuestion">Has this property been purchased or refinanced in the last 12&nbsp;years?</legend>
+                                            <ul class="list-reset list-inline checkbox">
+                                                <li>
+                                                    <input type="radio" id="reissueYes" name="reissue" value="1" onclick="rateCalc.DisplayPriorPolicy(true)" />
+                                                    <label for="reissueYes">Yes</label>
+                                                </li>
+                                                <li>
+                                                    <input type="radio" id="reissueNo" name="reissue" value="0" checked="checked" onclick="rateCalc.IsReissueQuestionNoClicked()" />
+                                                    <label for="reissueNo">No</label>
+                                                </li>
+                                            </ul>
+                                        </fieldset>
+                                        <fieldset data-name="tbReissueInfo" class="mobile-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th data-name="thReissueEnterPreviousTitle" class="label4"> </th>
+                                                        <th data-name="thReissuePolicyCodeTitle" class="label4">Prior Policy/Rate Type</th>
+                                                        <th data-name="thPriorAmount" class="label4">Prior Amount</th>
+                                                        <th data-name="thYearsSinceIssued" class="label4">Years Since Issued</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-name="trReissueOwner" data-policy-feetype="OwnerPremium">
+                                                        <td data-name="tdReissueOwnerPolicyLabel" class="label4">Owner&rsquo;s Policy:</td>
+                                                        <td data-name="tdReissueOwnerPolicyCode">
+                                                            <select class="input-block wx100" data-name="prior-policy-type" id="ReissueOwnerPolicyCode" name="ReissueOwnerPolicyCode" title="Re-Issue Loan Policy"><option disabled="disabled" selected="selected" value="">Select a Policy</option>
+</select>
+                                                        </td>
+                                                        <td data-name="tdReissueOwnerAmount">
+                                                            <input value="$0.00" class="input-block" data-local="US" data-type="currency" data-name="prior-policy-amount" id="ReissueOwnerAmount" maxlength="20" name="ReissueOwnerAmount" onchange="rateCalc.UpdateFieldValue(this, '$', 999999999.99, 0.00)" pattern="^(?!\$0\.00)([\$0-9,\.]{5,16})$"
+                                                                title="A valid US Dollar amount under 1 billion dollars." type="text">
+                                                        </td>
+                                                        <td>
+                                                            <select class="input-block" data-name="prior-policy-years" id="ReissueOwnerNumberOfYears" name="ReissueOwnerNumberOfYears"><option value=""></option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+</select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-name="trReissueLoan" data-policy-feetype="LenderPremium">
+                                                        <td data-name="tdReissueLenderPolicyLabel" class="label4">Loan Policy:</td>
+                                                        <td data-name="tdReissueLenderPolicyCode">
+                                                            <select class="input-block wx100" data-name="prior-policy-type" id="ReissueLenderPolicyCode" name="ReissueLenderPolicyCode" title="Re-Issue Loan Policy"><option disabled="disabled" selected="selected" value="">Select a Policy</option>
+</select>
+                                                        </td>
+                                                        <td data-name="tdReissueLenderAmount">
+                                                            <input value="$0.00" class="input-block" data-local="US" data-type="currency" data-name="prior-policy-amount" id="ReissueLenderAmount" maxlength="20" name="ReissueLenderAmount" onchange="rateCalc.UpdateFieldValue(this, '$', 999999999.99, 0.00)" pattern="^(?!\$0\.00)([\$0-9,\.]{5,16})$"
+                                                                title="A valid US Dollar amount under 1 billion dollars." type="text">
+                                                        </td>
+                                                        <td>
+                                                            <select class="input-block" data-name="prior-policy-years" id="ReissueLoanNumberOfYears" name="ReissueLoanNumberOfYears"><option value=""></option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+</select>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                        <!-- end #toReissueQuestion-->
+                                    </div>
+                                    <div class="row mobile-arrow">
+                                        <div class="columns six text-center">
+                                            <span data-name="spanMobileArrowPP"><i class="fa fa-angle-double-left fa-2x"></i>&nbsp;&nbsp;<i class="fa fa-angle-double-right fa-2x"></i></span>
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-name="LEEndorsementsWrapper">
+                                <div class="row calculator-section expand-section" id="headerLEEndorsements">
+                                    <div class="column one calculator-mobile m-two">
+                                        <span data-name="toggle-tefe-endorsements" class="enable-content"><i class="fa fa-toggle-off fa_custom fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="columns four calculator-section-header">
+                                        <fieldset class="fieldset-label">
+                                            <legend>Endorsements/ Other Products</legend>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns six calculator-section-total calculator-mobile m-five">
+                                        <a href="#" data-type="optionToggle" data-container-name="endorsementsContainer">Select Products</a>
+                                    </div>
+                                    <div class="column one">
+                                        <span class="expand-content pull-right clicks-disabled"><i class="fa fa-angle-double-down fa_disabled fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="calculator-content">
+                                    <div data-name="endorsementsResultWrapper">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div class="row calculator-section expand-section" id="headerLETitleServiceFees">
+                                    <div class="column one calculator-mobile m-two">
+                                        <span data-name="toggle-tefe-office" class="enable-content"><i class="fa fa-toggle-off fa_custom fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="columns four calculator-section-header">
+                                        <fieldset class="fieldset-label">
+                                            <legend>Title Service Fees</legend>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns six calculator-section-total calculator-mobile m-five">
+                                        <a href="#" data-type="optionToggle" data-container-name="officeContainer">Select Settlement Office</a>
+                                    </div>
+                                    <div class="column one">
+                                        <span class="expand-content pull-right clicks-disabled"><i class="fa fa-angle-double-down fa_disabled fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="calculator-content">
+                                    <div class="row">
+                                        <div data-name="tefeOfficeWrapper">
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div data-name="buyerTitleServiceFeesWrapper">
+                                    </div>
+                                    <div class="row">
+                                        <table class="table-results">
+                                            <thead data-bind="visible: isAdditionalTSFHeaderVisible">
+                                                <tr>
+                                                    <th style="width: 4%;" class="not-mobile-view"></th>
+                                                    <th style="width: 4%;" class="not-mobile-view" data-bind="visible: additionalTSFList().length > 1"></th>
+                                                    <th colspan="2"></th>
+                                                    <th data-bind="visible: isDisplaySplits()">Buyer Amount</th>
+                                                    <th data-bind="visible: !isDisplaySplits()">Total</th>
+                                                    <th data-bind="visible: isDisplaySplits()">Seller Amount</th>
+                                                    <th data-bind="visible: isDisplaySplits()">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="foreach: additionalTSFList">
+                                                <tr>
+                                                    <td style="width: 4%;" class="not-mobile-view">
+                                                        <span class="add-remove" data-bind="click: $parent.addTitleServiceFee">
+                                <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i>
+                            </span>
+                                                    </td>
+                                                    <td style="width: 4%;" class="not-mobile-view" data-bind="visible: $parent.additionalTSFList().length > 1">
+                                                        <span class="add-remove" data-bind="click: $parent.removeTitleServiceFee">
+                                <i class="fa fa-minus-square-o fa-2x" aria-hidden="true"></i>
+                            </span>
+                                                    </td>
+                                                    <td colspan="2">
+                                                        <input class="input-block" style="text-align:left;" type="text" value="" maxlength="35" data-bind="value: name" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="input-block" onchange="rateCalc.UpdateFieldValue(this, '$', 99999999.99, -99999999.99)" data-bind="value: buyerAmount" />
+                                                    </td>
+                                                    <td style="padding-right: 0px;" data-bind="visible: $parent.isDisplaySplits()">
+                                                        <input type="text" class="input-block" onchange="rateCalc.UpdateFieldValue(this, '$', 99999999.99, -99999999.99)" data-bind="value: sellerAmount" />
+                                                    </td>
+                                                    <td data-bind="visible: $parent.isDisplaySplits()">
+                                                        <span data-bind="text: totalAmount"></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row" data-name="additionalTSFButtonsRow">
+                                        <div class="columns six">
+                                            <button type="button" id="btnAddMoreTSF" value="+Add More" class="btn btn-small btn-primary" data-bind="click: addTitleServiceFee">+ Add More</button>
+                                        </div>
+                                        <div class="columns six">
+                                            <button type="button" id="btnRemoveLastTSF" value="-Remove Last" class="btn btn-small btn-primary" data-bind="click: removeTitleServiceFeeMobile, enable: additionalTSFList().length > 1">- Remove Last</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row calculator-section expand-section" id="headerLERecording">
+                                    <div class="column one calculator-mobile m-two">
+                                        <span data-name="toggle-tefe-fees" class="enable-content"><i class="fa fa-toggle-off fa_custom fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="columns four calculator-section-header">
+                                        <fieldset class="fieldset-label">
+                                            <legend>Recording Fees and Taxes</legend>
+                                        </fieldset>
+                                    </div>
+                                    <div class="columns six calculator-section-total calculator-mobile m-five">
+                                        <a href="#" data-type="optionToggle" data-container-name="feesContainer">Select Fee and Tax Info</a>
+                                    </div>
+                                    <div class="column one">
+                                        <span class="expand-content pull-right clicks-disabled"><i class="fa fa-angle-double-down fa_disabled fa-2x" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div class="calculator-content">
+                                    <div data-name="tefeRecordingResultWrapper">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center" data-name="createEstimateButton">
+                                <br />
+                                <button type="button" id="btnEstimate" value="Create Estimate" class="btn btn-primary btn-sm">Create Estimate</button>
+                                <button type="button" id="btnNewEstimate" value="New Estimate" class="btn btn-primary btn-sm" onclick="location.reload()">New Estimate</button>
+                            </div>
+                            <div class="calculator-content" data-name="preparedByForWrapper">
+                                <div>
+                                    <div class="row">
+                                        <p class="columns six">
+                                            <input class="input-block skip-right-align" id="txtBorrowerName" name="txtBorrowerName" type="text" value="" title="Borrower Name(s)" placeholder="Borrower Name(s)" maxlength="70" tabindex="1" />
+                                        </p>
+                                        <p class="columns six">
+                                            <input class="input-block skip-right-align" id="txtPropertyStreetAddress" name="txtPropertyStreetAddress" type="text" value="" title="Property Street Address" placeholder="Property Street Address" maxlength="35" tabindex="2" />
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="columns six">
+                                            <label class="total">Prepared By:</label>
+                                        </p>
+                                        <p class="columns six">
+                                            <label class="total">Prepared For:</label>
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedBy">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedByName" name="txtPreparedByName" type="text" value="" title="Prepared By Name" placeholder="Name" maxlength="35" onblur="UpdateCacheItem(this, 'PreparedBy');" tabindex="3" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedFor">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedForName" name="txtPreparedForName" type="text" value="" title="Prepared For Name" placeholder="Name" maxlength="35" onblur="UpdateCacheItem(this, 'PreparedFor');" tabindex="9" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedBy">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedByCompany" name="txtPreparedByCompany" type="text" value="" title="Prepared By Company" placeholder="Company" maxlength="35" onchange="UpdateCacheItem(this, 'PreparedBy')" tabindex="4" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedFor">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedForCompany" name="txtPreparedForCompany" type="text" value="" title="Prepared For Company" placeholder="Company" maxlength="35" onchange="UpdateCacheItem(this, 'PreparedFor')" tabindex="10" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedBy">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedByAddress" name="txtPreparedByAddress" type="text" value="" title="Prepared By Street Address" placeholder="Street Address" maxlength="35" onchange="UpdateCacheItem(this, 'PreparedBy')" tabindex="5"
+                                                    />
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedFor">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedForEmail" name="txtPreparedForEmail" type="text" value="" title="Prepared For Email Address" placeholder="Email Address" pattern="[a-z0-9._%+\-]+&#64;[a-z0-9.\-]+\.[a-z]{2,}$" maxlength="35" onchange="UpdateCacheItem(this, 'PreparedFor')"
+                                                        tabindex="11" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedBy">
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedByCityStateZip" name="txtPreparedByCityStateZip" type="text" value="" title="Prepared By City" placeholder="City, State,& Zip" maxlength="35" onchange="UpdateCacheItem(this, 'PreparedBy')" tabindex="6"
+                                                    />
+                                                </p>
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedByEmail" name="txtPreparedByEmail" type="text" value="" title="Prepared By Email Address" placeholder="Email Address" pattern="[a-z0-9._%+\-]+&#64;[a-z0-9.\-]+\.[a-z]{2,}$" maxlength="35" onchange="UpdateCacheItem(this, 'PreparedBy')"
+                                                        tabindex="7" />
+                                                </p>
+                                                <p>
+                                                    <input class="input-block skip-right-align" id="txtPreparedByPhone" name="txtPreparedByPhone" type="text" value="" title="Prepared By Phone Number" placeholder="Phone Number" maxlength="20" onchange="UpdateCacheItem(this, 'PreparedBy')" tabindex="8">
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedFor">
+                                                <p>
+                                                    <textarea class="input-block skip-right-align" id="txtPreparedForNote" name="txtPreparedForNote" rows="10" style="min-height:130px;" title="Prepared For Note" placeholder="Note" maxlength="200" onchange="UpdateCacheItem(this, 'PreparedFor')" tabindex="12"></textarea>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedBy">
+                                                <p>
+                                                    <input type="checkbox" id="cbPreparedByRememberMe" name="cbPreparedByRememberMe" value="false" onchange="cacheSectionFields(this, 'CalculatorPreparedBy')" /> Remember
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="columns six">
+                                            <div class="contentCalculatorPreparedFor">
+                                                <p>
+                                                    <input type="checkbox" id="cbPreparedForRememberMe" name="cbPreparedForRememberMe" value="false" onchange="cacheSectionFields(this, 'CalculatorPreparedFor')" /> Remember
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="contentTefeDocumentType">
+                                    <div class="row">
+                                        <div class="columns four">
+                                            <p>
+                                                Document Type
+                                            </p>
+                                            <p>
+                                                <select class="input-block" id="ddlDocumentType">
+                            <option value="TitleEscrowFeeEstimate">Title & Escrow Fee Estimate</option>
+                            <option value="LoanEstimate">Loan Estimate</option>
+                        </select>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="row text-center">
+                                    <button type="button" id="btnDownload" value="Download" class="btn btn-primary btn-sm" onclick="rateCalc.HandleDownloadPDFClick()"><span class="fa fa-file-pdf-o"></span> Download</button>
+                                    <div class="btn-divider"></div>
+                                    <button type="button" id="btnCancel" value="Cancel" class="btn btn-primary btn-sm">Cancel</button>
+                                    <p></p>
+                                </div>
+                                <div class="row">
+                                    <div class="columns six"></div>
+                                    <div data-name="loadingPdf" style="display:none">
+                                        <img src="/Content/img/ajax-loader.gif" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="container endorsements-container" data-name="endorsementsContainer" data-type="container" style="display: none;">
+                        <div class="row">
+                            <div class="twelve columns">
+                                <a href="#" class="btn btn-primary btn-sm" data-name="endorse-hide" data-type="containerToggle" data-container-name="endorsementsContainer"><span class="fa fa-arrow-circle-o-left"></span> Back</a>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="twelve columns">
+                                <div class="tab-content-wrapper" id="divEndorsementWrapper">
+                                    <section class="tab-content">
+                                        <fieldset id="tabOwnerEndorsement" data-policy-feetype="OwnerPremium" data-policy-number="1">
+                                            <legend class="legendEndorsement"><span>[+]</span> Owner&rsquo;s Policy Endorsements/Other Products - <small>Check all that apply</small></legend>
+                                            <div class="contentEndorsement">
+                                                <ul class="checkbox list-reset list-simple list-striped"></ul>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                    <section class="tab-content">
+                                        <fieldset id="tabLenderEndorsement" data-policy-feetype="LenderPremium" data-policy-number="1">
+                                            <legend class="legendEndorsement"><span>[+]</span> <span data-name="prefixMultiple"></span>Lender&rsquo;s Policy Endorsements/Other Products - <small>Check all that apply</small></legend>
+                                            <div class="contentEndorsement">
+                                                <ul class="checkbox list-reset list-simple list-striped"></ul>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                    <section class="tab-content">
+                                        <fieldset id="tabLeaseholdOwnerEndorsement" data-policy-feetype="LeaseholdOwnerPremium" data-policy-number="1">
+                                            <legend class="legendEndorsement"><span>[+]</span> Leasehold Owner&rsquo;s Policy Endorsements/Other Products - <small>Check all that apply</small></legend>
+                                            <div class="contentEndorsement">
+                                                <ul class="checkbox list-reset list-simple list-striped"></ul>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                    <section class="tab-content">
+                                        <fieldset id="tabLeaseholdLenderEndorsement" data-policy-feetype="LeaseholdLenderPremium" data-policy-number="1">
+                                            <legend class="legendEndorsement"><span>[+]</span> <span data-name="prefixMultiple"></span>Leasehold Lender&rsquo;s Policy Endorsements/Other Products - <small>Check all that apply</small></legend>
+                                            <div class="contentEndorsement">
+                                                <ul class="checkbox list-reset list-simple list-striped"></ul>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                    <section class="tab-content">
+                                        <fieldset id="tabConstructionLenderEndorsement" data-policy-feetype="ConstructionLenderPremium" data-policy-number="1">
+                                            <legend class="legendEndorsement"><span>[+]</span> <span data-name="prefixMultiple"></span>Construction Loan Policy Endorsements/Other Products - <small>Check all that apply</small></legend>
+                                            <div class="contentEndorsement">
+                                                <ul class="checkbox list-reset list-simple list-striped"></ul>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                    <section class="tab-content">
+                                        <fieldset id="tabProjectLenderEndorsement" data-policy-feetype="ProjectLenderPremium" data-policy-number="1">
+                                            <legend class="legendEndorsement"><span>[+]</span> <span data-name="prefixMultiple"></span>Project Loan Policy Endorsements/Other Products - <small>Check all that apply</small></legend>
+                                            <div class="contentEndorsement">
+                                                <ul class="checkbox list-reset list-simple list-striped"></ul>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="twelve columns">
+                                <a href="#" class="btn btn-primary btn-sm" data-name="endorse-hide" data-type="containerToggle" data-container-name="endorsementsContainer"><span class="fa fa-arrow-circle-o-left"></span> Back</a>
+                            </div>
+                            <!-- end column -->
+                        </div>
+                        <!-- end row -->
+                        <br />
+                    </div>
+
+                    <div class="container fees-container" data-name="feesContainer" data-type="container" style="display: none;">
+                        <div class="row">
+                            <div class="twelve columns">
+                                <a href="#" class="btn btn-primary btn-sm" data-name="fees-hide" data-type="containerToggle" data-container-name="feesContainer"><span class="fa fa-arrow-circle-o-left"></span> Back</a>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="twelve columns">
+                                <div class="tab-content-wrapper">
+                                    <section class="tab-content">
+                                        <fieldset id="fieldsetFeeInfo">
+                                            <legend class="legendFees">Recording/Transfer Fee Information</legend>
+                                            <div class="contentFeeInfo">
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                    <section class="tab-content">
+                                        <fieldset id="fieldsetFeeQuestions">
+                                            <legend class="legendFees">Recording/Transfer Fee Questions</legend>
+                                            <div class="contentFeeQuestionsAll">
+                                            </div>
+                                            <div class="contentFeeQuestionsMort">
+                                                <h5>Mortgage Questions</h5>
+                                            </div>
+                                            <div class="contentFeeQuestionsDeed">
+                                                <h5>Deed Questions</h5>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="twelve columns">
+                                <a href="#" class="btn btn-primary btn-sm" data-name="fees-hide" data-type="containerToggle" data-container-name="feesContainer"><span class="fa fa-arrow-circle-o-left"></span> Back</a>
+                            </div>
+                            <!-- end column -->
+                        </div>
+                        <!-- end row -->
+                        <br />
+                    </div>
+                    <script>
+                        rateCalc.hostNetworkName = '';
+                        rateCalc.isSettlementOfficeRequired = '';
+                        if (rateCalc.isBranded == false && rateCalc.hostNetworkName) {
+                            $('div[data-name="hostNetName"]').html('<b>' + rateCalc.hostNetworkName + '</b>');
+                        }
+                    </script>
+
+                    <div class="container office-container" data-name="officeContainer" data-type="container" style="display: none;">
+                        <div class="row">
+                            <div class="twelve columns">
+                                <a href="#" class="btn btn-primary btn-sm" data-name="office-hide" data-type="containerToggle" data-container-name="officeContainer"><span class="fa fa-arrow-circle-o-left"></span> Back</a>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="twelve columns">
+                                <div class="tab-content-wrapper">
+                                    <section class="tab-content">
+                                        <fieldset id="fieldsetOffice">
+                                            <legend class="legendOffice" style="margin-bottom:5px;">
+                                                Select Settlement Office:
+                                                <span id="divShowOfficeWithFee" class="checkbox-calculator pull-right">
+                                <label for="cbShowOfficeWithFee">
+                                    <input type="checkbox" id="cbShowOfficeWithFee" onchange="rateCalc.HandleShowOfficeWithFeeChanged(this)" />
+                                    <span>Show only offices who can quote online local fees</span>
+                                                </label>
+                                                </span>
+                                            </legend>
+                                            <div class="contentOffice" style="overflow-y:auto;height:100%">
+                                                <div data-name="loadingOffices" style="display:none">
+                                                    <img src="/Content/img/ajax-loader.gif" />
+                                                </div>
+                                                <table class="table-offices" id="offices">
+                                                    <thead></thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="twelve columns">
+                                <a href="#" class="btn btn-primary btn-sm" data-name="office-hide" data-type="containerToggle" data-container-name="officeContainer"><span class="fa fa-arrow-circle-o-left"></span> Back</a>
+                            </div>
+                            <!-- end column -->
+                        </div>
+                        <!-- end row -->
+                        <br />
+                    </div>
+
+                    <div class="row">
+                        <div class="twelve columns flex-container sectionBlock" data-name="state-notes">
+                            <textarea id="taStateNotes" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="twelve columns disclaimer sectionBlock" data-name="disclaimer">
+                            <b>DISCLAIMER:</b>
+                            <p id="paraDisclaimerNote">Stewart Title Guaranty Company, its suppliers and its subsidiaries, including Stewart Title Insurance Company (collectively STGC) take reasonable measures to ensure the quality of the data and the other information made available
+                                on this web site. Nevertheless because of the possibility of human, computer, or mechanical error, whether by our sources or by others, STGC does not guarantee the accuracy, adequacy, or completeness of any information
+                                herein. STGC does not make any express or implied warranties with regard to the use of the Stewart Rate Calculator and shall not be responsible for any errors or omissions or for the results obtained from the use of such
+                                information. You should verify all information obtained from this web site. </p>
+                            <p>The charges set forth herein may vary and additional charges will be made when unusual conditions of title are encountered, when special risks are insured against, or when special services are requested. </p>
+                        </div>
+                        <!-- end .column -->
+                    </div>
+                    <!-- end .row --><input id="hidStateSetting" name="StateSetting" type="hidden" value="" /><input data-val="true" data-val-required="The IsReissue field is required." id="hidIsReissue" name="IsReissue" type="hidden" value="False" /><input id="hidErnstRequestData"
+                        name="ErnstRequestData" type="hidden" value="" /><input data-val="true" data-val-required="The IsCalculatePremium field is required." id="hidIsCalculatePremium" name="IsCalculatePremium" type="hidden" value="False" /><input id="hidNetworkID"
+                        name="NetworkID" type="hidden" value="" /><input data-val="true" data-val-required="The IsCalculateTitleServiceFee field is required." id="hidIsCalculateTitleServiceFee" name="IsCalculateTitleServiceFee" type="hidden" value="False"
+                    /><input id="hidAdditionalLenderPolicyList" name="AdditionalLenderPolicyList" type="hidden" value="" /><input id="hidAdditionalLeaseholdLenderPolicyList" name="AdditionalLeaseholdLenderPolicyList" type="hidden" value="" /><input id="hidQuoteRequestRoot"
+                        name="QuoteRequestRoot" type="hidden" value="" /> <a href="/Quote/Netsheet?urlParams=urlparamsplaceholder" id="ancNetsheet" style="display:none"><span>Netsheet</span></a>
+                    <div data-name="loadingResults" style="display:none">
+                        <img src="/Content/img/ajax-loader.gif" />
+                    </div>
+                </form>
+                <script src="/scripts/nrc.js"></script>
+                <script src="/bundles/scriptsnrc?v=i_S5hx-Wh_aXoLPcM5mLl3TwmzxkJYtg_EkmK4u774Y1"></script>
+
+
+
+                <div data-name="dialog-help">
+                    <p id="pHelpText"></p>
+                </div>
+</body>
+
+</html>

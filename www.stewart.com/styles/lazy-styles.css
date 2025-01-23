@@ -1,0 +1,8 @@
+/* below the fold CSS goes here */
+
+@media (min-width: 900px) {
+    /* One trust Cookie settings icon */
+    .ot-floating-button button {
+        padding: 6px;
+    }
+}

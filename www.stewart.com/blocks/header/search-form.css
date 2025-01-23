@@ -1,0 +1,43 @@
+/********** Global Search Form **********/
+
+.search-form-container>.search-form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.search-form-container>.search-form>input {
+    border: 1px solid #6e6e6e;
+    height: 50px;
+    padding: 5px 1.1rem;
+    font-size: var(--font-size-base);
+    flex-grow: 2;
+    border-radius: 0;
+}
+
+.search-form-container>.search-form button {
+    margin-left: 24px;
+    font-size: var(--font-size-base);
+    height: 50px;
+    line-height: 12px;
+}
+
+/* Minimal Search Form */
+
+.search-form-container>.search-form.minimal button {
+    background: none;
+    border: 0;
+    min-width: initial;
+    position: absolute;
+    right: 10px;
+}
+
+.search-form-container>.search-form.minimal>input {
+    border-right: 0;
+}
+
+.search-form-container>.search-form.minimal .search-form-button {
+    background: var(--clr-white);
+    border: 1px solid #6e6e6e;
+    border-left: 0;
+}
